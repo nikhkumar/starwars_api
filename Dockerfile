@@ -1,6 +1,6 @@
 FROM openjdk:latest
 
-ADD target/starwars-0.0.1-SNAPSHOT starwars.jar
+ADD target/starwars-0.0.1-SNAPSHOT.jar starwars.jar
 
 ENTRYPOINT ["java","-jar","starwars.jar"]
 

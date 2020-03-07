@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,9 +34,16 @@ public class SwapAPIService {
 	@Value("${swapapi.url}")
 	String swapapiURL;
 
+	
 	public StarwarsResponse getStarwarData(String type, String name) {
 
 		try {
+			String url = null;
+			if (null != type)
+				url = swapapiURL + type.toLowerCase(); 
+			else 
+				return prepareFailureResponse(type, name, "Invalid Type or Name");
+				
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -41,16 +51,12 @@ public class SwapAPIService {
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
 			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
-			String url = null;
-			if (null != type)
-				url = swapapiURL + type.toLowerCase();
-			else
-				return prepareFailureResponse(type, name, "Invalid Type or Name");
-
 			ResponseEntity<String> swapapiResponse = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-
+			
 			return prepareStarwarResponse(type, name, swapapiResponse);
-		} catch (Exception ex) {
+		} 
+		catch (Exception ex) {
+			
 			return prepareFailureResponse(type, name, ex.getMessage());
 		}
 	}
@@ -66,8 +72,9 @@ public class SwapAPIService {
 	private StarwarsResponse prepareStarwarResponse(String type, String name, ResponseEntity<String> swapapiResponse) {
 		StarwarsResponse response = new StarwarsResponse();
 		JSONObject data = new JSONObject(swapapiResponse.getBody());
+		System.out.println(swapapiResponse.getBody());
 		JSONArray results = data.getJSONArray("results");
-		
+
 		response.setType(type);
 		response.setName(name);
 		response.setCount(data.getInt("count"));
