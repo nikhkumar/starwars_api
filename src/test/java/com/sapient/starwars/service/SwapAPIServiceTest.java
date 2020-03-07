@@ -31,5 +31,4 @@ public class SwapAPIServiceTest {
 		StarwarsResponse response = swapapiService.getStarwarData("Vehicles", "Sand Crawler");
 		assertEquals("URI is not absolute", response.getErrorMessage());
 	}
-
 }

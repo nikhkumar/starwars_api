@@ -34,7 +34,6 @@ public class SwapAPIService {
 	@Value("${swapapi.url}")
 	String swapapiURL;
 
-	
 	public StarwarsResponse getStarwarData(String type, String name) {
 
 		try {
