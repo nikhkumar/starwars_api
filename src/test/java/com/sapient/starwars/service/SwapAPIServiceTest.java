@@ -25,7 +25,6 @@ public class SwapAPIServiceTest {
 			assert (true);
 		}
 	}
-	
 	@Test
 	public void getStarwarData1Test() {
 		StarwarsResponse response = swapapiService.getStarwarData("Vehicles", "Sand Crawler");

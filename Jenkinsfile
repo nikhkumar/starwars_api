@@ -5,7 +5,6 @@ node {
 	stage('Checkout'){
    		echo "Pulling the code from Git"
    	}
- 
    stage('Build'){
    		echo "Building the application"
    		sh "mvn install -DskipTests=true"
