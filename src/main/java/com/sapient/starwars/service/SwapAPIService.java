@@ -85,7 +85,6 @@ public class SwapAPIService {
 			if (value instanceof JSONArray) {
 				value = toList((JSONArray) value);
 			}
-
 			else if (value instanceof JSONObject) {
 				value = toMap((JSONObject) value);
 			}

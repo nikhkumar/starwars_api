@@ -20,6 +20,5 @@ node {
    
    stage('Analysis'){
    		echo "Analysing the code"
-   
    }
    
